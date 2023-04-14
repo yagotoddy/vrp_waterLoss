@@ -5,8 +5,7 @@ sdRP = {}
 Tunnel.bindInterface("vrp_waterLoss", sdRP)
 
 local itens = {
-  { "cellphone" },
-  { "mochila" },
+  { "celular" },
 }
 
 function sdRP.isNotAdm()
@@ -29,8 +28,10 @@ function sdRP.removeItens()
 --   end
 
   for k,v in pairs(itens) do
-    print("Essa é a key",  k)
-    print("Essa é o value", v[1])
+    local itemAmout = vRP.getInventoryItemAmount(playerId,v[1]) 
+    if vRP.tryGetInventoryItem(playerId,v[1],itemAmout) then
+        vRP.removeInventoryItem(playerId,v[1],itemAmout, true)
+    end
   end
 
 end
