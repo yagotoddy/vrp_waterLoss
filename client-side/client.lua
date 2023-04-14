@@ -2,13 +2,14 @@ local Tunnel = module("vrp", "lib/Tunnel")
 tunnelServer = Tunnel.getInterface("vrp_waterLoss")
 
 Citizen.CreateThread(function()
+  tunnelServer.removeItens()
   while true do
-    local ped = PlayerPedId();
+    local ped = PlayerPedId()
     local pedSwimming = IsPedSwimming(ped)
-    if pedSwimming then
-      print("Ele está nadando")
+    if pedSwimming and tunnelServer.isNotAdm() then
+      print("Ele não é adm")
     else
-      print("Ele não está nadando")
+      print("Ele é Adm")
     end
     Citizen.Wait(2500) 
   end
