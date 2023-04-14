@@ -5,7 +5,8 @@ sdRP = {}
 Tunnel.bindInterface("vrp_waterLoss", sdRP)
 
 local itens = {
-  { "celular" },
+  { "celular", "celularqueimado" },
+  { "radio", "radioqueimado" },
 }
 
 function sdRP.isNotAdm()
@@ -22,15 +23,12 @@ function sdRP.removeItens()
   local source = source
   local playerId = vRP.getUserId(source)
   local playerAdm = vRP.hasPermission(playerId,"administrador.permissao")
-  
---   if (playerAdm) then
---     return
---   end
 
   for k,v in pairs(itens) do
     local itemAmout = vRP.getInventoryItemAmount(playerId,v[1]) 
     if vRP.tryGetInventoryItem(playerId,v[1],itemAmout) then
-        vRP.removeInventoryItem(playerId,v[1],itemAmout, true)
+      vRP.removeInventoryItem(playerId,v[1],itemAmout, true)
+      vRP.giveInventoryItem(playerId,v[2],itemAmout,true)
     end
   end
 
