@@ -7,8 +7,6 @@ Citizen.CreateThread(function()
     local pedSwimming = IsPedSwimming(ped)
     if pedSwimming and tunnelServer.isNotAdm() then
       tunnelServer.removeItens()
-    else
-      print("Ele é administrador, por isso não perde seus itens")
     end
     Citizen.Wait(2500) 
   end

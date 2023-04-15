@@ -10,6 +10,7 @@ local itens = {
 }
 
 function sdRP.isNotAdm()
+  local hasNotify = false
   local source = source
   local playerId = vRP.getUserId(source)
   local playerAdm = vRP.hasPermission(playerId,"administrador.permissao")
@@ -29,6 +30,7 @@ function sdRP.removeItens()
     if vRP.tryGetInventoryItem(playerId,v[1],itemAmout) then
       vRP.removeInventoryItem(playerId,v[1],itemAmout, true)
       vRP.giveInventoryItem(playerId,v[2],itemAmout,true)
+      TriggerClientEvent('Notify',source,'negado','Você entrou na água com um '..vRP.itemNameList(v[1])..' e por isso ele queimou. ', 5000)
     end
   end
 
