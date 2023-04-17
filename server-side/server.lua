@@ -10,7 +10,6 @@ local itens = {
 }
 
 function sdRP.isNotAdm()
-  local hasNotify = false
   local source = source
   local playerId = vRP.getUserId(source)
   local playerAdm = vRP.hasPermission(playerId,"administrador.permissao")
@@ -23,7 +22,6 @@ end
 function sdRP.removeItens()
   local source = source
   local playerId = vRP.getUserId(source)
-  local playerAdm = vRP.hasPermission(playerId,"administrador.permissao")
 
   for k,v in pairs(itens) do
     local itemAmout = vRP.getInventoryItemAmount(playerId,v[1]) 
