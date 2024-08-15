@@ -8,12 +8,6 @@ description 'Este script para FiveM detecta quando um jogador entra na água e f
 
 version '1.0.0'
 
-client_scripts {
-  '@vrp/lib/utils.lua',
-  'client-side/**',
-}
-
-server_script {
-  '@vrp/lib/utils.lua',
-  'server-side/**',
-}
+shared_script '@vrp/lib/utils.lua'
+client_script 'client-side/*'
+server_script 'server-side/*'

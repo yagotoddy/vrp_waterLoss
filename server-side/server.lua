@@ -1,35 +1,30 @@
-local Tunnel = module("vrp", "lib/Tunnel")
 local Proxy = module("vrp", "lib/Proxy")
-vRP = Proxy.getInterface("vRP")
-sdRP = {}
-Tunnel.bindInterface("vrp_waterLoss", sdRP)
+local vRP = Proxy.getInterface("vRP")
 
-local itens = {
-  { "celular", "celularqueimado" },
-  { "radio", "radioqueimado" },
+local itemList = {
+  { remove = "celular", give = "celularqueimado" },
+  { remove = "radio", give = "radioqueimado" },
 }
 
-function sdRP.isNotAdm()
-  local source = source
+RegisterNetEvent('waterloss:removeItens',function()
   local playerId = vRP.getUserId(source)
-  local playerAdm = vRP.hasPermission(playerId,"administrador.permissao")
-  if (playerAdm) then
-    return false
-  end 
-  return true
-end
-
-function sdRP.removeItens()
-  local source = source
-  local playerId = vRP.getUserId(source)
-
-  for k,v in pairs(itens) do
-    local itemAmout = vRP.getInventoryItemAmount(playerId,v[1]) 
-    if vRP.tryGetInventoryItem(playerId,v[1],itemAmout) then
-      vRP.removeInventoryItem(playerId,v[1],itemAmout, true)
-      vRP.giveInventoryItem(playerId,v[2],itemAmout,true)
-      TriggerClientEvent('Notify',source,'negado','Você entrou na água com um '..vRP.itemNameList(v[1])..' e por isso ele queimou. ', 5000)
-    end
+  if not playerId then
+    print('[-] O id do usuario nao foi encontrado.')
+    return
   end
 
-end
+  local isAdmin = vRP.hasPermission(playerId,"administrador.permissao")
+  if isAdmin then
+    print('[-] O usuario é admin.')
+    return
+  end
+
+  for i = 1,#itemList do
+    local item = itemList[i]
+    local count = vRP.getInventoryItemAmount(playerId,item.removeItem)
+    if vRP.tryGetInventoryItem(playerId,item.removeItem,count) then
+      vRP.giveInventoryItem(playerId,item.giveitem,count,true)
+      TriggerClientEvent('Notify',source,'negado',('Você entrou na água com um %s e por isso ele queimou.'):format(vRP.itemNameList(item.removeItem)),5000)
+    end
+  end
+end)

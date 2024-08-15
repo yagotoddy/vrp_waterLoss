@@ -1,13 +1,18 @@
-local Tunnel = module("vrp", "lib/Tunnel")
-tunnelServer = Tunnel.getInterface("vrp_waterLoss")
-
+local isSwimming = false
 Citizen.CreateThread(function()
   while true do
     local ped = PlayerPedId()
-    local pedSwimming = IsPedSwimming(ped)
-    if pedSwimming and tunnelServer.isNotAdm() then
-      tunnelServer.removeItens()
+    if IsPedSwimming(ped) then
+      if not isSwimming then
+        isSwimming = true
+        TriggerServerEvent('waterloss:removeItens')
+      end
+    else
+      if isSwimming then
+        isSwimming = false
+      end
     end
-    Citizen.Wait(2500) 
+
+    Citizen.Wait(1000)
   end
 end)
